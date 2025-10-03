@@ -7,25 +7,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to DI
 builder.Services.AddControllersWithViews();
 
-// Use In-Memory DB so you can run without SQL Server
-builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-    opt.UseInMemoryDatabase("DisasterDB"));
+// Configure DbContext to use Azure SQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register services
+// Register services for dependency injection
 builder.Services.AddScoped<IDonationService, DonationService>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();
 builder.Services.AddScoped<IVolunteerService, VolunteerService>();
 
 var app = builder.Build();
 
-// seed sample data
+// Seed sample data if needed
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    DataSeeder.Seed(db);
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    DataSeeder.Seed(db); // Make sure DataSeeder works with AppDbContext
 }
 
-// middleware
+// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
