@@ -1,1 +1,34 @@
+@model DisasterAlleviation.Models.Incident
+@{
+    ViewData["Title"] = "Report Incident";
+}
+@layout = "_Layout";
+
+<h2>Report Incident</h2>
+
+<form asp-action="Report" method="post">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Location" class="form-label"></label>
+        <input asp-for="Location" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DateReported" class="form-label"></label>
+        <input asp-for="DateReported" class="form-control" type="date" />
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
 
