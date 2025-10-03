@@ -1,1 +1,24 @@
+@model IEnumerable<DisasterAlleviation.Models.Incident>
+@{
+    ViewData["Title"] = "Incidents";
+}
+@layout = "_Layout";
+
+<h2>Incidents</h2>
+<p><a class="btn btn-primary" href="/Incidents/Report">Report Incident</a></p>
+
+<table class="table table-striped">
+    <thead><tr><th>Title</th><th>Location</th><th>Date</th><th>Description</th></tr></thead>
+    <tbody>
+    @foreach(var i in Model)
+    {
+        <tr>
+            <td>@i.Title</td>
+            <td>@i.Location</td>
+            <td>@i.DateReported.ToLocalTime().ToString("yyyy-MM-dd")</td>
+            <td>@i.Description</td>
+        </tr>
+    }
+    </tbody>
+</table>
 
