@@ -1,27 +1,31 @@
-using Disaster.Data;
-using Disaster.Services.Implementations;
-using Disaster.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using DisasterAlleviation.Data;
+using DisasterAlleviation.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("DisasterDb"));
+// Add services to DI
+builder.Services.AddControllersWithViews();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+// Use In-Memory DB so you can run without SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseInMemoryDatabase("DisasterDB"));
 
+// Register services
 builder.Services.AddScoped<IDonationService, DonationService>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();
 builder.Services.AddScoped<IVolunteerService, VolunteerService>();
 
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
-// Configure pipeline
+// seed sample data
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    DataSeeder.Seed(db);
+}
+
+// middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -31,13 +35,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
 
 app.Run();
-
