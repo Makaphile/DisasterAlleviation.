@@ -1,0 +1,39 @@
+using DisasterAlleviation.Models;
+
+namespace DisasterAlleviation.Data
+{
+    public static class DataSeeder
+    {
+        public static void Seed(ApplicationDbContext db)
+        {
+            if (!db.Donations.Any())
+            {
+                db.Donations.AddRange(new[]
+                {
+                    new Donation { DonorName = "Community Center", ResourceType = "Food", Quantity = 100, DateDonated = DateTime.UtcNow.AddDays(-3) },
+                    new Donation { DonorName = "Local Shop", ResourceType = "Water", Quantity = 200, DateDonated = DateTime.UtcNow.AddDays(-1) }
+                });
+            }
+
+            if (!db.Incidents.Any())
+            {
+                db.Incidents.AddRange(new[]
+                {
+                    new Incident { Title = "Flooding - Riverside", Description = "Water rise after heavy rain", Location = "Riverside", DateReported = DateTime.UtcNow.AddDays(-2) },
+                    new Incident { Title = "Fire - East Warehouse", Description = "Small warehouse fire, under control", Location = "East District", DateReported = DateTime.UtcNow.AddDays(-1) }
+                });
+            }
+
+            if (!db.Volunteers.Any())
+            {
+                db.Volunteers.AddRange(new[]
+                {
+                    new Volunteer { FullName = "Jane Doe", Email = "jane@example.com", PhoneNumber = "0123456789", Skills = "First Aid" },
+                    new Volunteer { FullName = "John Smith", Email = "john@example.com", PhoneNumber = "0987654321", Skills = "Logistics" }
+                });
+            }
+
+            db.SaveChanges();
+        }
+    }
+}
