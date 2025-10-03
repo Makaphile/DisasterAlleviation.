@@ -1,1 +1,24 @@
+@model IEnumerable<DisasterAlleviation.Models.Donation>
+@{
+    ViewData["Title"] = "Donations";
+}
+@layout = "_Layout";
+
+<h2>Donations</h2>
+<p><a class="btn btn-primary" href="/Donations/Create">Add Donation</a></p>
+
+<table class="table table-striped">
+    <thead><tr><th>Donor</th><th>Resource</th><th>Quantity</th><th>Date</th></tr></thead>
+    <tbody>
+    @foreach(var d in Model)
+    {
+        <tr>
+            <td>@d.DonorName</td>
+            <td>@d.ResourceType</td>
+            <td>@d.Quantity</td>
+            <td>@d.DateDonated.ToLocalTime().ToString("yyyy-MM-dd")</td>
+        </tr>
+    }
+    </tbody>
+</table>
 
