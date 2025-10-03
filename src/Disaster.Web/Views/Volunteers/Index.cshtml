@@ -1,1 +1,24 @@
+@model IEnumerable<DisasterAlleviation.Models.Volunteer>
+@{
+    ViewData["Title"] = "Volunteers";
+}
+@layout = "_Layout";
+
+<h2>Volunteers</h2>
+<p><a class="btn btn-primary" href="/Volunteers/Register">Register Volunteer</a></p>
+
+<table class="table table-striped">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Skills</th></tr></thead>
+    <tbody>
+    @foreach(var v in Model)
+    {
+        <tr>
+            <td>@v.FullName</td>
+            <td>@v.Email</td>
+            <td>@v.PhoneNumber</td>
+            <td>@v.Skills</td>
+        </tr>
+    }
+    </tbody>
+</table>
 
