@@ -1,19 +1,15 @@
-using Disaster.Core.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using DisasterAlleviation.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Disaster.Data
+namespace DisasterAlleviation.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        public DbSet<Donation> Donations { get; set; }
-        public DbSet<Incident> Incidents { get; set; }
-        public DbSet<IncidentImage> IncidentImages { get; set; }
-        public DbSet<Volunteer> Volunteers { get; set; }
-        public DbSet<VolunteerTask> VolunteerTasks { get; set; }
+        public DbSet<Donation> Donations => Set<Donation>();
+        public DbSet<Incident> Incidents => Set<Incident>();
+        public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     }
 }
-
